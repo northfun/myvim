@@ -1,84 +1,110 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
-    
-set hlsearch
-set nu
+
+" let g:ycm_path_to_python_interpreter = '/Applications/anaconda3/bin/python'
+" let g:ycm_python_interpreter_path = '/Applications/anaconda3/bin/python'
+let g:ycm_server_use_vim_stdout = 0
+" let g:ycm_server_keep_logfiles = 1
+let g:ycm_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
+" YouCompleteMe插件相关配置
+" 开启debug模式
+let g:ycm_log_level = 'debug'
+" 使用当前环境的Python版本
+let g:ycm_python_binary_path = 'python'
+" 选定提示词后自动关闭提示窗口
+let g:ycm_autoclose_preview_window_after_completion=1
+" 自定义跳转快捷键为gl
+nnoremap gl :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'fatih/vim-go'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'git://github.com/scrooloose/nerdtree.git'
-Bundle 'majutsushi/tagbar'
-" Bundle \"Lokaltog/vim-powerline"
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'majutsushi/tagbar'
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'nathanaelkane/vim-indent-guides'
+Bundle 'Valloric/YouCompleteMe'
+Plugin 'kien/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'tpope/vim-fugitive'
-Plugin 'bling/vim-bufferline'
+" Plugin 'cormacrelf/vim-colors-github'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
-call pathogen#infect()  
 filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
 
-let mapleader=','
+execute pathogen#infect()
+colorscheme molokai
 
-let g:gofmt_command = "goimports"
-autocmd BufWritePre *.go :GoImports
+syntax on
+set nu!
 
-let g:tagbar_type_go = {   
-    \ 'ctagstype' : 'go',  
-    \ 'kinds'     : [   
-        \ 'p:package',  
-        \ 'i:imports:1',  
-        \ 'c:constants',  
-        \ 'v:variables',  
-        \ 't:types',  
-        \ 'n:interfaces',  
-        \ 'w:fields',  
-        \ 'e:embedded',  
-        \ 'm:methods',  
-        \ 'r:constructor',  
-        \ 'f:functions'  
-    \ ],  
-    \ 'sro' : '.',  
-    \ 'kind2scope' : {   
-        \ 't' : 'ctype',  
-        \ 'n' : 'ntype'  
-    \ },  
-    \ 'scope2kind' : {   
-        \ 'ctype' : 't',  
-        \ 'ntype' : 'n'  
-    \ },  
-    \ 'ctagsbin'  : 'gotags',  
-    \ 'ctagsargs' : '-sort -silent'  
-    \ }
-
-let g:ycm_server_python_interpreter='/usr/bin/python'
-set laststatus=2
-
-" let g:airline_powerline_fonts = 1
-" let g:airline#extensions#tmuxline#enabled = 0
-let g:Powerline_symbols='unicode'
-let g:airline_theme="dark"
-let g:bufferline_echo = 0
-let g:airline_skip_empty_sections = 1
-let g:airline#extensions#tabline#enabled = 1
+" :hi CursorLineNr NONE
+" :hi clear CursorLineNr  #this will set the given group's highlight setting to default.
+set hlsearch
 
 nmap <F8> :TagbarToggle<CR>
-nmap <F9> :NERDTree<CR>
+nmap <F9> :NERDTreeToggle<CR>
 
-let mapleader=";"
+" au BufNewFile,BufRead *.py
+" \ set tabstop=4
+" \ set softtabstop=4
+" \ set shiftwidth=4
+" \ set textwidth=79
+" \ set expandtab
+" \ set autoindent
+" \ set fileformat=unix
 
-noremap <F2> :bprev<CR>
-noremap <F3> :bnext<CR>
+" @airline
+set t_Co=256      "在windows中用xshell连接打开vim可以显示色彩
+let g:airline#extensions#tabline#enabled = 1   " 是否打开tabline
+"这个是安装字体后 必须设置此项"
+let g:airline_powerline_fonts = 1
+set laststatus=2  "永远显示状态栏
+let g:airline_theme='bubblegum' "选择主题
+let g:airline#extensions#tabline#enabled=1    "Smarter tab line: 显示窗口tab和buffer
+"let g:airline#extensions#tabline#left_sep = ' '  "separater
+"let g:airline#extensions#tabline#left_alt_sep = '|'  "separater
+"let g:airline#extensions#tabline#formatter = 'default'  "formater
+let g:airline_left_sep = '▶'
+let g:airline_left_alt_sep = '❯'
+let g:airline_right_sep = '◀'
+let g:airline_right_alt_sep = '❮'
 
-nnoremap <leader>y :let g:ycm_auto_trigger=0<CR>                " turn off YCM
-nnoremap <leader>Y :let g:ycm_auto_trigger=1<CR>                " turn on YCM
-
-" syntax on  
-" filetype plugin indent on
+set tags+=$HOME/.vim/tags/python.ctags
