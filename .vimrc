@@ -3,6 +3,9 @@ filetype off                  " required
 
 " let g:ycm_path_to_python_interpreter = '/Applications/anaconda3/bin/python'
 " let g:ycm_python_interpreter_path = '/Applications/anaconda3/bin/python'
+let g:ycm_global_ycm_extra_conf = '/Users/fanbeishuang/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+let g:pymode_rope_complete_on_dot = 0
+
 let g:ycm_server_use_vim_stdout = 0
 " let g:ycm_server_keep_logfiles = 1
 let g:ycm_keep_logfiles = 1
@@ -52,6 +55,7 @@ Bundle 'Valloric/YouCompleteMe'
 Plugin 'kien/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'fatih/vim-go'
 " Plugin 'cormacrelf/vim-colors-github'
 
 " All of your Plugins must be added before the following line
@@ -109,5 +113,21 @@ let g:airline_right_alt_sep = '❮'
 
 set tags+=$HOME/.vim/tags/python.ctags
 
+""" YouCompleteMe
+let g:ycm_semantic_triggers =  {
+  \   'c' : ['->', '.'],
+  \   'go' : ['.'],
+  \   'objc' : ['->', '.'],
+  \   'cpp,objcpp' : ['->', '.', '::'],
+  \   'perl' : ['->'],
+  \   'php' : ['->', '::'],
+  \   'cs,java,javascript,d,vim,ruby,python,perl6,scala,vb,elixir,go' : ['.'],
+  \   'lua' : ['.', ':'],
+  \   'erlang' : [':'],
+  \ }
+
+" set backspace=2
 command! Jsonf :execute '%!python -m json.tool'
   \ | :execute '%!python -c "import re,sys;sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"), sys.stdin.read()))"'
+
+let g:go_fmt_command = "goimports"
